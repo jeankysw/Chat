@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Iniciar Sesión</title>
+
+</head>
+<body>
+    <div class="login-container">
+    
+        <form id="loginForm" class="w-50 p-5 form " method="POST" action="/chat">
+            <h2 class="text-center mb-4">Iniciar Sesión</h2>
+            <div class="form-group">
+                <div id="errorMessage" class="mt-3 text-danger alert alert-danger  text-center" style="display: none;"></div>
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" class="form-control" id="correo" name="correo" required>
+            </div>
+            <div class="form-group">
+                <label for="contraseña">Contraseña:</label>
+                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        </form>
+       <div class="content-image">
+        <img src="https://i.pinimg.com/564x/77/0d/10/770d102476dd8fe2b3d658567277e70c.jpg" alt="image" >
+       </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+        if (error) {
+            document.getElementById('errorMessage').innerText = decodeURIComponent(error);
+            document.getElementById('errorMessage').style.display = "block";
+        }
+    </script>
+</body>
+</html>
+<style>
+    body {
+        background-color: #2b271e;
+    }
+    .content-image{
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        text-align: center;     
+        width: 50%;
+        background-color: rgba(0, 0, 0, 0.1);
+        height: 100%;
+        background-color: aqua;
+    }
+    .content-image img{
+        width: 550px;
+        height: 410px;
+    }
+    .login-container {
+        max-width: 70%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        display: flex;
+        border-radius: 10px;
+        border: 1px solid transparent ;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>

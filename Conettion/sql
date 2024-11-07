@@ -1,0 +1,47 @@
+-- Crear la base de datos
+CREATE DATABASE MensajeriaDB;
+GO
+USE MensajeriaDB;
+
+-- Tabla de Usuarios
+CREATE TABLE Usuarios (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL,
+    fecha_registro DATETIME DEFAULT GETDATE(),
+    CONSTRAINT CK_Correo CHECK (correo LIKE '%_@__%.__%')  -- Validación simple de formato de correo
+);
+
+-- Tabla de Conversaciones
+CREATE TABLE Conversaciones (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    tipo VARCHAR(10) CHECK (tipo IN ('individual', 'grupo')) NOT NULL,
+    fecha_creacion DATETIME DEFAULT GETDATE()
+);
+
+-- Tabla de Participantes
+CREATE TABLE Participantes (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    conversacion_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (conversacion_id) REFERENCES Conversaciones(id) ON DELETE CASCADE,
+    UNIQUE (usuario_id, conversacion_id)  -- Evitar duplicados en cada conversación
+);
+
+-- Tabla de Mensajes
+CREATE TABLE Mensajes (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    conversacion_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_envio DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (conversacion_id) REFERENCES Conversaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE CASCADE
+);
+
+-- Índices para mejorar el rendimiento en las consultas
+CREATE INDEX idx_conversacion ON Mensajes(conversacion_id);
+CREATE INDEX idx_usuario ON Mensajes(usuario_id);
+CREATE INDEX idx_participante ON Participantes(conversacion_id);

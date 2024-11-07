@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat entre dos usuarios</title>
+
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>Conversación entre Usuario 1 y Usuario 2</h2>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Aquí se mostrarán los mensajes -->
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f9;
+    }
+
+    .chat-container {
+        width: 400px;
+        max-width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .chat-header {
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .chat-messages {
+        padding: 20px;
+        height: 400px;
+        overflow-y: auto;
+    }
+
+    .message {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .message.user1 {
+        justify-content: flex-start;
+    }
+
+    .message.user2 {
+        justify-content: flex-end;
+    }
+
+    .message-content {
+        max-width: 70%;
+        padding: 10px;
+        border-radius: 8px;
+        color: #ffffff;
+    }
+
+    .user1 .message-content {
+        background-color: #007bff;
+    }
+
+    .user2 .message-content {
+        background-color: #28a745;
+    }
+</style>
+<script>document.addEventListener("DOMContentLoaded", () => {
+        // Datos de ejemplo de mensajes (simulando datos desde la base de datos)
+        const mensajes = [
+            { usuario_id: 1, contenido: "¡Hola! ¿Cómo estás?", fecha_envio: "2024-10-28 09:30" },
+            { usuario_id: 2, contenido: "Hola, estoy bien. ¿Y tú?", fecha_envio: "2024-10-28 09:31" },
+            { usuario_id: 1, contenido: "Todo bien, gracias.", fecha_envio: "2024-10-28 09:32" },
+            { usuario_id: 2, contenido: "¿Te gustaría reunirte más tarde?", fecha_envio: "2024-10-28 09:35" }
+        ];
+
+        // Selecciona el contenedor de mensajes en el DOM
+        const chatMessages = document.getElementById("chatMessages");
+
+        // Función para renderizar los mensajes en la interfaz
+        mensajes.forEach(msg => {
+            // Crea un contenedor para cada mensaje
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", `user${msg.usuario_id}`);
+
+            // Crea el contenido del mensaje
+            const messageContent = document.createElement("div");
+            messageContent.classList.add("message-content");
+            messageContent.innerText = `${msg.contenido} \n(${msg.fecha_envio})`;
+
+            // Añade el contenido al contenedor del mensaje
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+        });
+    });
+</script>
